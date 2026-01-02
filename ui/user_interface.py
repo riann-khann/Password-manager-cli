@@ -103,6 +103,9 @@ class UI:
         table.add_column("EMAIL")
         table.add_column("PHONE NUMBER",max_width=12)
     
+    @staticmethod
+    def merge_table_add_row(table,i,data):
+        table.add_row(str(i),data.code,data.sosial_media,data.name,data.email,str(data.number))
 
 
     @staticmethod
@@ -110,42 +113,53 @@ class UI:
         console,table=UI.merge_console_rich()
         UI.merge_table_title_show_account(table)
         for i,data in enumerate(data,1):
-            table.add_row(str(i),data.code,data.sosial_media,data.name,data.email,str(data.number))
+            UI.merge_table_add_row(table,i,data)
         console.print(table)
     
     @staticmethod
-    def search_show_account(data:list[object],code:str=None,name:str=None,email:str=None,sosmed:str=None,phone_number:str=None)->None:
+    def search_show_account(data:list[object],code:str=None,name:str=None,email:str=None,sosmed:str=None,phone_number:str=None)->None|bool:
         console,table=UI.merge_console_rich()
         UI.merge_table_title_show_account(table)
         found_data=None
-        found_rows=None
         for i,data in enumerate(data,1):
+
             if name is not None and name == data.name:
-                found_rows=True
+                UI.merge_table_add_row(table,i,data)
+                found_data=True
 
             elif code is not None and code==data.code:
-                found_rows=True
+                UI.merge_table_add_row(table,i,data)
+                found_data=True
 
             elif email is not None and email in data.email:
-                found_rows=True
+                UI.merge_table_add_row(table,i,data)
+                found_data=True
 
             elif sosmed is not None and sosmed == data.sosial_media:
-                found_rows=True
+                UI.merge_table_add_row(table,i,data)
+                found_data=True
 
             elif phone_number is not None and phone_number == data.number:
-                found_rows=True
+                UI.merge_table_add_row(table,i,data)
+                found_data=True
 
-            if found_rows:
+            if found_data:
                 table.add_row(str(i),data.code,data.sosial_media,data.name,data.email,str(data.number))
                 found_data=True
-                
+
         if found_data:
             console.print(table)
             is_done=input("exit? y/n:")
             if is_done == "y":
-                return None
+                return True
+            else:
+                console.print("[bold red3] input tidak valid[/bold red3]")
+                return False
+                
         else:
             console.print("[bold red3]data tidak ditemukan[/bold red3]")
+            return None
+        
 
 
     @staticmethod
