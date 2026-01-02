@@ -143,10 +143,6 @@ class UI:
                 UI.merge_table_add_row(table,i,data)
                 found_data=True
 
-            if found_data:
-                table.add_row(str(i),data.code,data.sosial_media,data.name,data.email,str(data.number))
-                found_data=True
-
         if found_data:
             console.print(table)
             is_done=input("exit? y/n:")
